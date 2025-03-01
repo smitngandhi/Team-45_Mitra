@@ -31,7 +31,7 @@ USER-AUTHENTICATION-WITH-FLASK-MAIN-MONGO-DB/
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/your-repo/user-authentication-with-flask-mongo-db.git
+git clone -b Dhruvil https://github.com/smitngandhi/Mitra.git
 cd user-authentication-with-flask-mongo-db
 ```
 
