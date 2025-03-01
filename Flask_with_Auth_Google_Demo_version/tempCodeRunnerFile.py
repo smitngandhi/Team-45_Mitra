@@ -1,3 +1,0 @@
-)
-
-# google=oauth.register()

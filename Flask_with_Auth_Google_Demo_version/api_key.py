@@ -1,2 +1,2 @@
-CLIENT_ID='838439644710-1n5rvio00m31k1hudqld5qk9irk5e3a0.apps.googleusercontent.com'
-CLIENT_SECRET='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'
+CLIENT_ID='625117762742-occ7rvnho6rpdremg286j4gvegbsdh9u.apps.googleusercontent.com'
+CLIENT_SECRET='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'
