@@ -11,6 +11,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,17 +58,20 @@ const Register = () => {
 
         {/* Right Section - Registration Form */}
         <div className="w-full md:w-1/2 p-10">
-          <h2 className="text-2xl font-semibold text-gray-800">Welcome to</h2>
-          <h2 className="text-3xl font-bold text-[#8A7FDB]">Mitra</h2>
+        <h2 className="text-3xl font-medium text-gray-600">
+  New here, <span className="text-4xl font-bold text-[#8A7FDB]">Mitra</span>?
+</h2>
+<h2 className="text-lg font-bold text-[#8A7FDB]">Let's begin.</h2>
+
+
 
           {/* Full Name */}
           <div className="mt-6">
             <label className="block text-gray-700 font-medium">Full Name</label>
             <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100">
-              <span className="text-gray-500 pr-2">👤</span>
               <input 
                 type="text" 
-                placeholder="John Doe" 
+                placeholder="Enter your name here" 
                 className="w-full bg-transparent focus:outline-none text-gray-800" 
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)} 
@@ -79,10 +83,9 @@ const Register = () => {
           <div className="mt-4">
             <label className="block text-gray-700 font-medium">Username</label>
             <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100">
-              <span className="text-gray-500 pr-2">👤</span>
               <input 
                 type="text" 
-                placeholder="johndoe123" 
+                placeholder="Enter your username here" 
                 className="w-full bg-transparent focus:outline-none text-gray-800"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)} 
@@ -94,10 +97,9 @@ const Register = () => {
           <div className="mt-4">
             <label className="block text-gray-700 font-medium">Email</label>
             <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100">
-              <span className="text-gray-500 pr-2">📧</span>
               <input 
                 type="email" 
-                placeholder="example@gmail.com" 
+                placeholder="Enter valid email here" 
                 className="w-full bg-transparent focus:outline-none text-gray-800"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)} 
@@ -108,16 +110,17 @@ const Register = () => {
           {/* Password */}
           <div className="mt-4">
             <label className="block text-gray-700 font-medium">Password</label>
-            <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100">
-              <span className="text-gray-500 pr-2">🔑</span>
-              <input 
-                type="password" 
-                placeholder="********" 
+            <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100 relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="********"
                 className="w-full bg-transparent focus:outline-none text-gray-800"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)} 
+                onChange={(e) => setPassword(e.target.value)}
               />
-              <span className="text-gray-500 cursor-pointer">👁️</span>
+              <span className="absolute right-3 cursor-pointer text-gray-500" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? "🙈" : "👁️"}
+              </span>
             </div>
           </div>
 
@@ -125,11 +128,12 @@ const Register = () => {
 
           {/* Register Button */}
           <button 
-            className="w-full bg-[#8A7FDB] text-white font-semibold rounded-lg py-3 mt-4"
-            onClick={handleSubmit}
-          >
-            Register
-          </button>
+          className="w-full bg-[#8A7FDB] text-white font-semibold rounded-lg py-3 mt-4
+                    transition-all duration-300 hover:bg-[#6f63cc] hover:shadow-md"
+          onClick={handleSubmit}
+        >
+          Register
+        </button>
 
           {/* OR Divider */}
           <div className="flex items-center my-4">
@@ -139,7 +143,7 @@ const Register = () => {
           </div>
 
           {/* Google Registration Button */}
-          <GoogleButton text="Register with Google" />
+          <GoogleButton text="Sign up with Google" />
 
           {/* Login Link */}
           <p className="text-center mt-4 text-gray-600">

@@ -9,6 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,17 +53,18 @@ const Login = () => {
 
         {/* Right Section - Login Form */}
         <div className="w-full md:w-1/2 p-10">
-          <h2 className="text-2xl font-semibold text-gray-800">Welcome to</h2>
-          <h2 className="text-3xl font-bold text-[#8A7FDB]">Design School</h2>
+        <h2 className="text-3xl font-medium text-gray-600">
+            Welcome Back, <span className="text-4xl font-bold text-[#8A7FDB]">Mitra</span>
+          </h2>
+          <h2 className="text-lg font-bold text-[#8A7FDB]">Let's dive in.</h2>
 
           {/* Email Input */}
           <div className="mt-6">
             <label className="block text-gray-700 font-medium">Email</label>
             <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100">
-              <span className="text-gray-500 pr-2">📧</span>
               <input 
                 type="email" 
-                placeholder="example@gmail.com" 
+                placeholder="Enter valid email here" 
                 className="w-full bg-transparent focus:outline-none text-gray-800"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)} 
@@ -73,16 +75,17 @@ const Login = () => {
           {/* Password Input */}
           <div className="mt-4">
             <label className="block text-gray-700 font-medium">Password</label>
-            <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100">
-              <span className="text-gray-500 pr-2">🔑</span>
-              <input 
-                type="password" 
-                placeholder="********" 
+            <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100 relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="********"
                 className="w-full bg-transparent focus:outline-none text-gray-800"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)} 
+                onChange={(e) => setPassword(e.target.value)}
               />
-              <span className="text-gray-500 cursor-pointer">👁️</span>
+              <span className="absolute right-3 cursor-pointer text-gray-500" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? "🙈" : "👁️"}
+              </span>
             </div>
           </div>
 
@@ -97,11 +100,12 @@ const Login = () => {
 
           {/* Login Button */}
           <button 
-            className="w-full bg-[#8A7FDB] text-white font-semibold rounded-lg py-3 mt-4"
-            onClick={handleSubmit}
-          >
-            Login
-          </button>
+          className="w-full bg-[#8A7FDB] text-white font-semibold rounded-lg py-3 mt-4
+                    transition-all duration-300 hover:bg-[#6f63cc] hover:shadow-md"
+          onClick={handleSubmit}
+        >
+          Login
+        </button>
 
           {/* Error Message */}
           {error && <p className="text-red-500 text-center mt-2">{error}</p>}
@@ -114,7 +118,7 @@ const Login = () => {
           </div>
 
           {/* Google Login Button */}
-          <GoogleButton text="Login with Google" />
+          <GoogleButton text="Sign in with Google" />
 
           {/* Register Link */}
           <p className="text-center mt-4 text-gray-600">

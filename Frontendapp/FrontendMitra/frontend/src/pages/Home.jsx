@@ -1,8 +1,10 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import heroImage from "../assets/image1.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="font-sans bg-white">
       
@@ -15,9 +17,13 @@ const Home = () => {
           <p className="text-gray-500">
             Mitra: A Gentle Whisper in the Storm, A Light in Your Darkest Hour
           </p>
-          <button className="px-6 py-3 bg-indigo-600 text-white rounded-md">
-            Get Started
-          </button>
+          <button 
+          className="px-6 py-3 bg-indigo-600 text-white rounded-md transition-all duration-300
+                    hover:bg-indigo-700 hover:shadow-md"
+          onClick={() => navigate("/register")}
+        >
+          Get Started
+        </button>
         </div>
         <div className="md:w-1/2">
           <img src={heroImage} alt="Hero" className="w-full h-auto object-cover" />
