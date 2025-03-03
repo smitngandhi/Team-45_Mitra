@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import "./animate.css"
+import "./animate.css";
+
 const Navbar = () => {
   return (
     <nav className="flex justify-between items-center p-3 shadow-md bg-white">
@@ -7,12 +8,12 @@ const Navbar = () => {
     <h1 className="text-2xl font-bold animated-text">MITRA</h1>
   </Link>      
     <div className="flex items-center space-x-5 ml-auto">
-      <a href="#" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Know Your Mind</a>
-        <a href="#" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">MindChat</a>
-        <a href="#" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">SelfCare Plans</a>
-        <a href="#" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">FAQs</a>
-        <a href="#" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Contact Us</a>
-      </div>
+      <Link to="test" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Know Your Mind</Link>
+        <Link to="chat" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">MindChat</Link>
+        <Link to="plan" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">SelfCare Plans</Link>
+        <Link to="/faqs" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">FAQs</Link>
+        <Link to="/contactus" className="text-black-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Contact Us</Link>
+        </div>
       <div className="flex items-center space-x-5 ml-6">
         {/* Login Button */}
         <Link 
