@@ -48,14 +48,17 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex">
-        
-        {/* Left Section - Illustration */}
-        <div className="hidden md:flex w-1/2 items-center justify-center bg-white">
-          <img src={illustration} alt="Register Illustration" className="w-3/4" />
-        </div>
-
+     <div className="flex items-center justify-center min-h-screen bg-white">
+          <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex">
+            
+            {/* Left Section - Illustration */}
+            <div className="hidden md:flex w-1/2 items-center justify-center bg-white">
+              <img 
+                src={illustration} 
+                alt="Login Illustration" 
+                className="w-3/4 transition-transform duration-500 hover:scale-105"
+              />
+            </div>
         {/* Right Section - Registration Form */}
         <div className="w-full md:w-1/2 p-10">
         <h2 className="text-3xl font-medium text-gray-600">
@@ -148,7 +151,13 @@ const Register = () => {
           {/* Login Link */}
           <p className="text-center mt-4 text-gray-600">
             Already have an account?
-            <Link to="/login" className="text-[#8A7FDB] font-semibold"> Log in</Link>
+            <Link 
+                          to="/login" 
+                          className="text-[#8A7FDB] font-semibold 
+                                     transition-colors duration-300 hover:text-[#6f63cc] ml-1"
+                        >
+                          Log In
+                        </Link>
           </p>
         </div>
       </div>
