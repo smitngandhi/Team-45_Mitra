@@ -1,37 +1,43 @@
-# MITRA - Backend (Authentication)
+# MITRA - AI-Powered Mental Wellness Assistant
 
-
-
-## 📌 Features
-- ✅ **User Authentication** (Signup, Login, Logout)
-- 🔒 **Secure Password Hashing** (Using bcrypt)
-- 📧 **Email-based Verification & Password Reset**
-- 🛡️ **JWT-based Authentication**
-- 💜 **Environment-based Configuration**
-- 🏗️ **Well-Structured Modular Codebase**
-- 📂 **Virtual Environment Setup for Dependency Management**
+## 🧠 What is MITRA?
+**MITRA** is an AI-powered mental wellness assistant designed to provide users with personalized mental health support. It offers intelligent chatbot interactions, psychological assessments, progress tracking, and secure authentication to ensure a safe and effective experience. MITRA is built with robust MLOps principles, allowing for efficient deployment, scalability, and real-world implementation.
 
 ---
 
-## 🏡 Project Structure
+## 🚀 Features
+- 🤖 **AI Chatbot** – Engages in meaningful conversations based on user sentiment.
+- 📝 **Psychological Assessments** – Implements PHQ-9, GAD-7, DASS-21, and IES-R tests.
+- 📊 **Progress Tracking** – Monitors user mental health trends over time.
+- 🔒 **Secure Authentication** – User registration, login, password recovery.
+- 🧠 **Personalized Therapy Plans** – Adapts chatbot responses based on assessments.
+- ☁️ **Cloud-Based Scalability** – Backend structured for seamless frontend integration.
+- 📧 **Email-Based Verification** – Secure password reset functionality.
+- 🏗️ **Modular Backend Architecture** – Follows clean, maintainable design.
+- 🌐 **Role-Based Access Control** – Future scope for personalized user experience.
+
+---
+
+## 🏗️ Project Structure
 ```
 Mitra/
 │── app/
 │   ├── routes/
 │   │   ├── __init__.py
-│   │   ├── auth_routes.py    # Handles authentication (login, signup, reset)
-│   │   ├── user_routes.py    # User-related operations
+│   │   ├── auth_routes.py    # Handles authentication (signup, login, reset)
+│   │   ├── chatbot_routes.py # Chatbot interactions
+│   │   ├── test_routes.py    # Psychological assessments API
 │   ├── utils/
-│   │   ├── mail.py           # Handles email sending
-│   │   ├── security.py       # Security utilities (password hashing, JWT)
-│   │   ├── config.py         # Environment & configuration management
-│   │   ├── models.py         # Database models
+│   │   ├── mail.py           # Email handling
+│   │   ├── security.py       # JWT & password security
+│   │   ├── config.py         # Configuration management
+│   │   ├── database.py       # Database connection & models
 │── mitra_venv/               # Virtual environment
-│── .gitignore                # Git ignored files (venv, env files, etc.)
+│── .gitignore                # Ignore unnecessary files
 │── README.md                 # Project documentation
-│── requirements.txt          # Dependencies list
-│── run.py                    # Entry point for the application
-│── .env                      # Environment variables (DB credentials, secrets)
+│── requirements.txt          # Dependencies
+│── run.py                    # Entry point for API
+│── .env                      # Environment variables
 ```
 
 ---
@@ -40,8 +46,8 @@ Mitra/
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/your-repo/mitra-auth.git
-cd mitra-auth
+git clone https://github.com/smitngandhi/Mitra.git
+cd Mitra
 ```
 
 ### 2️⃣ Create a Virtual Environment
@@ -72,19 +78,31 @@ python run.py
 
 ---
 
-## 🛠️ Built With
-- **Flask** - Web framework
-- **Flask-JWT-Extended** - Secure token-based authentication
-- **bcrypt** - Password hashing
-- **Flask-Mail** - Email service for verification & password recovery
+## 🛠️ Tech Stack
+- **Backend:** Flask, Flask-JWT-Extended, Flask-Mail
+- **Database:** MongoDB (NoSQL)
+- **Frontend:** React.js (Planned Integration)
+- **Authentication:** JWT-based with bcrypt password hashing
+- **ML Models:** NLP-based chatbot with sentiment analysis
 
 ---
 
-## 🚀 Future Enhancements
-- 🔹 Role-based Access Control (RBAC)
-- 🔹 OAuth Integration (Google, GitHub)
-- 🔹 Logging & Monitoring
+## 🔮 Future Enhancements
+- 🎭 **Multiple Chatbot Personalities** (Friend, Parent, Therapist mode)
+- 📊 **Advanced Sentiment Analysis** for deeper insights
+- 🎯 **Gamified Mental Health Activities**
+- 🔗 **OAuth Integration** (Google, GitHub)
+- 🔍 **AI-Based Therapy Recommendations**
 
 ---
 
+## 🤝 Contributing
+We welcome contributions! Please follow best practices and submit PRs with detailed explanations.
+
+---
+
+## 📧 Contact
+For inquiries, reach out to **smitngandhi585@gmail.com** or open an issue on GitHub.
+
+MITRA – Your AI Companion for Mental Wellness 💙
 
