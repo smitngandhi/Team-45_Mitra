@@ -6,7 +6,7 @@ import illustration from "../assets/Illustration.jpg.jpeg";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [email_or_username, setEmail_or_username] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +16,7 @@ const Login = () => {
     e.preventDefault();
 
     const loginData = {
-      email: email,
+      email_or_username : email_or_username,
       password: password,
     };
 
@@ -92,11 +92,11 @@ const Login = () => {
             <div className="flex items-center border rounded-lg mt-1 px-3 py-2 bg-gray-100 
                             transition-all duration-300 focus-within:border-[#8A7FDB] focus-within:shadow-md">
               <input 
-                type="email" 
-                placeholder="Enter valid email here" 
+                type="text" 
+                placeholder="Enter valid email/username here" 
                 className="w-full bg-transparent focus:outline-none text-gray-800"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)} 
+                value={email_or_username}
+                onChange={(e) => setEmail_or_username(e.target.value)} 
               />
             </div>
           </div>

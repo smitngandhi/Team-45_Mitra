@@ -20,10 +20,9 @@ def register():
     if not is_valid_username(user["username"]):
         return jsonify({"msg": "Username must be at least 5 characters long, start with a letter, and contain only letters, numbers, or underscores"}), 400
     
-    # if is_valid_username(user["username"]):
-        
-    #         return jsonify({"msg": "Username already exists"}), 400
-
+    if verify_username(user["username"]):
+        return jsonify({"msg": "Username already exists"}), 400
+    
     if not is_valid_email(user["email"]):
         return jsonify({"msg": "Invalid email format"}), 400
 
@@ -38,24 +37,25 @@ def register():
     user_id = str(uuid.uuid4())
 
     new_user = {
-        "user_id": user_id,  # Added unique user ID
+        "user_id": user_id,  
         "full_name": user["full_name"],
         "email": user["email"],
         "username": user["username"],
         "password": hashed_password,
-        "test_results": {},  
+        "gender": "Male",
+        "phone_number":"",
+        "country":"India",
+        "test_results": [],  
         "chatbot_preference": None
-        # "chat_history": []  # Added empty list for storing chatbot interactions
     }
 
     users_collection.insert_one(new_user)
     access_token = generate_token(user["email"])
 
     response = make_response(jsonify({"msg": f"{user["username"]} registered successfully", "user_id": user_id}))
-    response.set_cookie("user_id", user_id, httponly=True, secure=False, samesite="None")
     response.set_cookie("access_token", access_token, httponly=True, secure=False, samesite="None")  
 
-    print(response.headers)
+    # print(response.headers)
     return response, 201
 
 
@@ -65,7 +65,13 @@ def register():
 def login():
     data = request.get_json()
 
-    user = users_collection.find_one({"email": data["email"]})
+    user = users_collection.find_one({
+        "$or": [
+            {"email": data["email_or_username"]},
+            {"username": data["email_or_username"]}
+        ]
+    })
+
     if not user:
         return jsonify({"msg": "User not found"}), 404
 
@@ -95,6 +101,9 @@ def login():
     # Increment failed attempts if password is incorrect
     users_collection.update_one({"email": user["email"]}, {"$inc": {"failed_attempts": 1}})
     return jsonify({"msg": "Incorrect password"}), 401
+
+
+
 
 # Forgot Password
 @auth_routes.route("/forgot-password", methods=["POST"])
@@ -177,36 +186,6 @@ def reset_password(token):
     # Update password and remove reset token
 
 
-
-
-@auth_routes.route("/api/chat", methods=["POST"])
-def chat():
-
-    data = request.get_json()
-    message = data["message"]
-    # user_id = request.cookies.get("user_id")  # Fetch user_id from cookies
-
-    # if not user_id:
-    #     print("Did not find the user_id")
-    #     return jsonify({"error": "Unauthorized"}), 401
-
-
-    response_text  , sentiment_score = generate_llm_response_sentiment(message)
-    print(response_text)
-    chat_entry = {
-        "user_id": "111",
-        "user_message": message,
-        "bot_response": response_text,
-        "timestamp": datetime.now(timezone.utc),
-        "sentiment_score" : sentiment_score
-    }
-
-    chats_collection.insert_one(chat_entry)
-
-    return jsonify({"reply": response_text , "sentiment_score": sentiment_score} )
-
-
-
 @auth_routes.route("/login/google", methods=["GET"])
 def login_google():
     try:
@@ -231,7 +210,7 @@ def login_google():
         return "Error occurred during login", 500
 
 
-@auth_routes.route("/authorize/google", methods=["GET"])
+auth_routes.route("/authorize/google", methods=["GET"])
 def authorize_google():
     CLIENT_ID='625117762742-occ7rvnho6rpdremg286j4gvegbsdh9u.apps.googleusercontent.com'
     CLIENT_SECRET='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'
@@ -283,26 +262,248 @@ def authorize_google():
     return redirect("http://localhost:3000/")
 
 
-@auth_routes.route("/get-username", methods=["POST"])
-def get_username():
-    try:
-        data = request.get_json()  # Get JSON payload from request
-        if not data or "access_token" not in data:
-            return jsonify({"msg": "Unauthorized: No token provided"}), 401
+# @auth_routes.route("/api/chat", methods=["POST"])
+# def chat():
 
-        access_token = data["access_token"]  # Extract access_token
-        decoded_token = decode_token(access_token)  # Decode the JWT token
-        email = decoded_token.get("sub")  # Extract email from token
+#     data = request.get_json()
+#     message = data["message"]
+#     print(message)
+
+#     if "access_token" in data and data["access_token"]:
+#         access_token = data["access_token"]
+#         decoded_token = decode_token(access_token)
+#         email = decoded_token.get("sub")
+#         user = users_collection.find_one({"email": email})
+
+#         chatbot_preference = user["chatbot_preference"]
+#         username = user["full_name"]
+#         print(username)
+#         response_text  , sentiment_score = generate_llm_response_sentiment(message , chatbot_preference , username)
+#         print(response_text)
+#         chat_entry = {
+#         "user_id": user["user_id"],
+#         "user_message": message,
+#         "bot_response": response_text,
+#         "timestamp": datetime.now(timezone.utc),
+#         "sentiment_score" : sentiment_score
+#         }
+#         chats_collection.insert_one(chat_entry)
+
+#         return jsonify({"reply": response_text , "sentiment_score": sentiment_score} )
+
+
+#     response_text  , sentiment_score = generate_llm_response_sentiment(message , None , None)
+#     # user_id = request.cookies.get("user_id")  # Fetch user_id from cookies
+
+#     # if not user_id:
+#     #     print("Did not find the user_id")
+#     #     return jsonify({"error": "Unauthorized"}), 401
+
+
+#     user_id = str(uuid.uuid4())
+#     chat_entry = {
+#         "user_id": user_id,
+#         "user_message": message,
+#         "bot_response": response_text,
+#         "timestamp": datetime.now(timezone.utc),
+#         "sentiment_score" : sentiment_score
+#     }
+
+#     chats_collection.insert_one(chat_entry)
+
+#     return jsonify({"reply": response_text , "sentiment_score": sentiment_score} )
+
+
+
+
+
+# @auth_routes.route("/get-username", methods=["POST"])
+# def get_username():
+#     try:
+#         data = request.get_json()  # Get JSON payload from request
+#         if not data or "access_token" not in data:
+#             return jsonify({"msg": "Unauthorized: No token provided"}), 401
+
+#         access_token = data["access_token"]  # Extract access_token
+#         decoded_token = decode_token(access_token)  # Decode the JWT token
+#         email = decoded_token.get("sub")  # Extract email from token
         
-        if not email:
-            return jsonify({"msg": "Invalid or expired token"}), 401
+#         if not email:
+#             return jsonify({"msg": "Invalid or expired token"}), 401
         
-        # Fetch user from database using the extracted email
-        user = users_collection.find_one({"email": email})
-        if not user:
-            return jsonify({"msg": "User not found"}), 404
+#         # Fetch user from database using the extracted email
+#         user = users_collection.find_one({"email": email})
+#         if not user:
+#             return jsonify({"msg": "User not found"}), 404
         
-        return jsonify({"username": user.get("username")}), 200
+#         return jsonify({"username": user.get("username")}), 200
     
-    except Exception as e:
-        return jsonify({"msg": "Error retrieving username", "error": str(e)}), 500
+#     except Exception as e:
+#         return jsonify({"msg": "Error retrieving username", "error": str(e)}), 500
+
+
+# @auth_routes.route("/profile", methods=["POST"])
+# def get_profile():
+#     try:
+#         data = request.get_json()
+#         if not data or "access_token" not in data:
+#             return jsonify({"msg": "Unauthorized: No token provided"}), 401
+
+#         access_token = data["access_token"]
+#         decoded_token = decode_token(access_token)
+#         email = decoded_token.get("sub")
+
+#         if not email:
+#             return jsonify({"msg": "Invalid or expired token"}), 401
+        
+#         # Fetch user from database using the extracted email
+#         user = users_collection.find_one({"email": email})
+#         if not user:
+#             return jsonify({"msg": "User not found"}), 404
+        
+#         user_data = {
+#             "_id": str(user["_id"]),
+#             "user_id": user["user_id"],
+#             "full_name": user["full_name"],
+#             "email": user["email"],
+#             "username": user["username"],
+#             "test_results": user["test_results"],
+#             "chatbot_preference": user["chatbot_preference"],
+#             "country": user.get("country", ""),  # Use .get() with a default value
+#             "gender": user.get("gender", ""),
+#             "phone_number": user.get("phone_number", "")
+#         }
+
+#         return jsonify(user_data), 200
+    
+#     except Exception as e:
+#         return jsonify({"msg": "Error retrieving profile", "error":str(e)}), 500
+
+
+# @auth_routes.route("/store_test_score", methods=["POST"])
+# def store_test_score():
+#     try:
+#         data = request.get_json()
+#         if not data or "access_token" not in data or "test_score" not in data:
+#             return jsonify({"msg": "Bad Request: Missing required fields"}), 400
+
+#         access_token = data["access_token"]
+#         print(access_token)
+#         test_score = int(data["test_score"])
+#         print(test_score)
+
+#         timestamp = datetime.now(timezone.utc)
+#         print(timestamp)
+
+#         # Decode JWT token
+#         decoded_token = decode_token(access_token)
+#         email = decoded_token.get("sub")
+#         print(email)
+        
+#         if not email:
+#             return jsonify({"msg": "Invalid or expired token"}), 401
+
+#         # Determine chatbot preference based on test_score
+#         if test_score <= 4:
+#             preference = "Minimal Support"
+#         elif test_score <= 9:
+#             preference = "Mild Support"
+#         elif test_score <= 14:
+#             preference = "Moderate Support"
+#         elif test_score <= 19:
+#             preference = "High Support"
+#         else:
+#             preference = "Critical Support"
+        
+
+#         print(preference)
+#         # Fetch the user from the database
+#         user = users_collection.find_one({"email": email})
+#         if not user:
+#             return jsonify({"msg": "User not found"}), 404
+
+#         # Ensure test_results is a dictionary
+#         # test_results = user.get("test_results")
+        
+#         # Store the new test score with a timestamp
+#         # test_results = {"PHQ-9": test_score, "chatbot_preference": preference , "timestamp": timestamp}
+        
+#         # Update user test_results in the database
+#         update_result = users_collection.update_one(
+#             {"email": email},
+#             {
+#                 "$push": {"test_results": {  # Add to the array
+#                     "timestamp": timestamp,
+#                     "PHQ-9": test_score,
+#                     "chatbot_preference": preference
+#                 }},
+#                 "$set": {"chatbot_preference": preference}  # Store separately
+#             }
+#         )
+#         if update_result.modified_count == 0:
+#             return jsonify({"msg": "No changes made"}), 400
+
+#         return jsonify({"msg": "Test score stored successfully", "chatbot_preference": preference}), 200
+    
+#     except Exception as e:
+#         return jsonify({"msg": "Error storing test score", "error": str(e)}), 500
+    
+
+
+
+# @auth_routes.route("/update_profile", methods=["POST"])
+# def update_profile():
+#     try:
+#         data = request.get_json()
+#         if not data or "access_token" not in data:
+#             return jsonify({"msg": "Unauthorized: No token provided"}), 401
+
+#         access_token = data["access_token"]
+#         decoded_token = decode_token(access_token)
+#         email = decoded_token.get("sub")
+
+#         if not email:
+#             return jsonify({"msg": "Invalid or expired token"}), 401
+
+#          # Extract profile update fields
+#         update_fields = {
+#             "full_name": data.get("full_name"),
+#             "username": data.get("username"),
+#             "gender": data.get("gender"),
+#             "country": data.get("country"),
+#             "phone_number": data.get("phone_number")
+#         }
+
+#         # Remove None values
+#         update_fields = {k: v for k, v in update_fields.items() if v is not None}
+
+#         # Update user in database
+#         result = users_collection.update_one(
+#             {"email": email},
+#             {"$set": update_fields}
+#         )
+
+#         if result.modified_count > 0:
+#             # Fetch updated user data
+#             updated_user = users_collection.find_one({"email": email})
+            
+#             # Prepare user data response
+#             user_data = {
+#                 "full_name": updated_user.get("full_name"),
+#                 "username": updated_user.get("username"),
+#                 "email": updated_user.get("email"),
+#                 "gender": updated_user.get("gender"),
+#                 "country": updated_user.get("country"),
+#                 "phone_number": updated_user.get("phone_number")
+#             }
+
+#             return jsonify({
+#                 "msg": "Profile updated successfully", 
+#                 "user_data": user_data
+#             }), 200
+#         else:
+#             return jsonify({"msg": "No changes were made"}), 200
+
+#     except Exception as e:
+#         return jsonify({"msg": "Error updating profile", "error": str(e)}), 500
+

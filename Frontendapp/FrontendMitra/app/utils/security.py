@@ -39,11 +39,10 @@ from app.models import *
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 def is_valid_username(username):
-    return bool(re.match(r"^[A-Za-z][A-Za-z0-9_]{4,}$", username))
+    return bool(re.match(r"[A-Za-z]\w{4,}", username))
 
 def verify_username(username):
-    existing_user = users_collection.find_one({"username": username})
-    return existing_user
+    return bool(users_collection.find_one({"username": username}))
 
 def generate_hash_password(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
@@ -68,16 +67,42 @@ def is_valid_email(email):
 def generate_hash_token(token):
     return hashlib.sha256(token.encode()).hexdigest()
 
-def generate_llm_response_sentiment(user_message):
+def generate_llm_response_sentiment(user_message , chatbot_preference , username):
+
+
+    name = False  # Initialize variables before the if block
+    bot = False
+
+    
     analyzer = SentimentIntensityAnalyzer()
-    messages = [
-        SystemMessage(content="You are a mental health support chatbot. Be empathetic and supportive."),
+
+    if username:
+        name=True
+        if chatbot_preference:
+            bot=True
+    
+    if name and bot:
+        messages = [
+        SystemMessage(content=f"You are a {chatbot_preference} chatbot and you are talking with {username}. Be empathetic and supportive."),
         HumanMessage(content=user_message)
     ]
+    
+    if name:
+        messages = [
+        SystemMessage(content=f"You are a mental health chatbot and you are talking with {username}. Be empathetic and supportive."),
+        HumanMessage(content=user_message)
+    ]
+    
+    else:
+        messages = [
+        SystemMessage(content=f"You are a mental health chatbot. Be empathetic and supportive."),
+        HumanMessage(content=user_message)
+    ]
+        
     scores = analyzer.polarity_scores(user_message)
     compound_score = scores['compound']
     sentiment_score = (compound_score + 1) / 2 
 
 
-    response = llm(messages)
-    return response.content , sentiment_score
+    response = llm.invoke(messages)
+    return response.content , sentiment_score   

@@ -1,6 +1,0 @@
-Flask==2.2.5
-Flask-PyMongo==2.3.0
-pymongo==4.7.0
-authlib==1.2.1
-certifi==2023.11.17
-Werkzeug==2.2.5

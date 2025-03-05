@@ -1,58 +1,81 @@
-from flask import jsonify, request
+from app import create_app
+from flask import make_response, redirect, request, jsonify, url_for
+from app.models import users_collection , chats_collection
+from app.utils.mail import send_reset_email
+import secrets
 from app.routes import test_routes
-from app.models import db
-import datetime as datetime
-from app.utils.chatbot_logic import determine_chatbot_type
+from datetime import datetime , timedelta 
+from datetime import datetime, timedelta, timezone
+from app.utils.security import  *
+from authlib.integrations.flask_client import OAuth
+import certifi
+import uuid
 
-PHQ_9_QUESTIONS = [
-    "Little interest or pleasure in doing things?",
-    "Feeling down, depressed, or hopeless?",
-    "Trouble falling or staying asleep, or sleeping too much?",
-    "Feeling tired or having little energy?",
-    "Poor appetite or overeating?",
-    "Feeling bad about yourself - or that you are a failure?",
-    "Trouble concentrating on things?",
-    "Moving or speaking so slowly?",
-    "Thoughts that you would be better off dead or hurting yourself?"
-]
+@test_routes.route("/store_test_score", methods=["POST"])
+def store_test_score():
+    try:
+        data = request.get_json()
+        if not data or "access_token" not in data or "test_score" not in data:
+            return jsonify({"msg": "Bad Request: Missing required fields"}), 400
 
-GAD_7_QUESTIONS = [
-    "Feeling nervous, anxious, or on edge?",
-    "Not being able to stop or control worrying?",
-    "Worrying too much about different things?",
-    "Trouble relaxing?",
-    "Being so restless that it is hard to sit still?",
-    "Becoming easily annoyed or irritable?",
-    "Feeling afraid as if something awful might happen?"
-]
+        access_token = data["access_token"]
+        print(access_token)
+        test_score = int(data["test_score"])
+        print(test_score)
 
-# Fetch Questions
-@test_routes.route("/api/tests/phq9", methods=["GET"])
-def get_phq9_questions():
-    return jsonify({"questions": PHQ_9_QUESTIONS})
+        timestamp = datetime.now(timezone.utc)
+        print(timestamp)
 
-@test_routes.route("/api/tests/gad7", methods=["GET"])
-def get_gad7_questions():
-    return jsonify({"questions": GAD_7_QUESTIONS})
+        # Decode JWT token
+        decoded_token = decode_token(access_token)
+        email = decoded_token.get("sub")
+        print(email)
+        
+        if not email:
+            return jsonify({"msg": "Invalid or expired token"}), 401
 
-# Submit Test Answers
-@test_routes.route("/api/tests/submit", methods=["POST"])
-def submit_test():
-    data = request.json
-    username = data["username"]
-    test_type = data["test_type"]  # e.g., "PHQ-9" or "GAD-7"
-    answers = data["answers"]  # List of scores (0-3)
+        # Determine chatbot preference based on test_score
+        if test_score <= 4:
+            preference = "Minimal Support"
+        elif test_score <= 9:
+            preference = "Mild Support"
+        elif test_score <= 14:
+            preference = "Moderate Support"
+        elif test_score <= 19:
+            preference = "High Support"
+        else:
+            preference = "Critical Support"
+        
 
-    total_score = sum(answers)
-    chatbot_type = determine_chatbot_type(test_type, total_score)
+        print(preference)
+        # Fetch the user from the database
+        user = users_collection.find_one({"email": email})
+        if not user:
+            return jsonify({"msg": "User not found"}), 404
 
-    # Store results in database
-    db.users.update_one(
-        {"username": username},
-        {"$set": {
-            f"test_results.{test_type}": {"score": total_score, "date": datetime.now().isoformat()},
-            "chatbot_preference": chatbot_type
-        }}
-    )
+        # Ensure test_results is a dictionary
+        # test_results = user.get("test_results")
+        
+        # Store the new test score with a timestamp
+        # test_results = {"PHQ-9": test_score, "chatbot_preference": preference , "timestamp": timestamp}
+        
+        # Update user test_results in the database
+        update_result = users_collection.update_one(
+            {"email": email},
+            {
+                "$push": {"test_results": {  # Add to the array
+                    "timestamp": timestamp,
+                    "PHQ-9": test_score,
+                    "chatbot_preference": preference
+                }},
+                "$set": {"chatbot_preference": preference}  # Store separately
+            }
+        )
+        if update_result.modified_count == 0:
+            return jsonify({"msg": "No changes made"}), 400
 
-    return jsonify({"score": total_score, "recommended_chatbot": chatbot_type})
+        return jsonify({"msg": "Test score stored successfully", "chatbot_preference": preference}), 200
+    
+    except Exception as e:
+        return jsonify({"msg": "Error storing test score", "error": str(e)}), 500
+    

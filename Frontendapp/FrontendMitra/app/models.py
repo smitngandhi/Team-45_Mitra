@@ -9,7 +9,7 @@ from app.config import Config
 
 # Initialize MongoDB connection
 client = MongoClient(os.getenv("MONGO_URL"))
-db = client["Mydatabase"]
+db = client["mydatabase"]
 
 
 # Collections
