@@ -7,9 +7,32 @@ import image1 from '../assets/image1.jpg'
 import bing from '../assets/bing.svg'
 import React, { useState } from 'react';
 import '../After_Login.css';
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 
 const After_Login_Home = () => {
+
+        const [cookies, setCookie] = useCookies(["access_token"]);
+
+        useEffect(() => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const accessTokenFromURL = urlParams.get("access_token");
+
+          if (accessTokenFromURL && !cookies.access_token) {
+              console.log("Inside")
+              setCookie("access_token", accessTokenFromURL, {
+                  path: "/",
+                  maxAge : 3600
+              });
+
+              console.log("Access token stored in cookies!");
+
+              // Remove the access_token from the URL
+              const newURL = window.location.pathname;
+              window.history.replaceState({}, document.title, newURL);
+          }
+        }, [cookies.access_token, setCookie]);
 
         // 6 Testimonials
         const testimonialsData = [

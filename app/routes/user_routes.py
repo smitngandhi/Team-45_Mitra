@@ -11,29 +11,43 @@ from authlib.integrations.flask_client import OAuth
 import certifi
 import uuid
 
-@user_routes.route("/get-username", methods=["POST"])
+@user_routes.route("/get-username", methods=["POST", "GET"])
 def get_username():
     try:
-        data = request.get_json()  # Get JSON payload from request
-        if not data or "access_token" not in data:
+        access_token = None
+
+        # Try getting token from JSON body (for POST requests)
+        if request.method == "POST":
+            data = request.get_json(silent=True)  # Use silent=True to avoid errors if JSON is missing
+            access_token = data.get("access_token") if data else None
+
+        # If no token in JSON, check the URL query parameters (for GET requests)
+        if not access_token:
+            access_token = request.args.get("access_token")
+
+        # If still no token, check if it's stored in cookies (optional)
+        if not access_token:
+            access_token = request.cookies.get("access_token")
+
+        if not access_token:
             return jsonify({"msg": "Unauthorized: No token provided"}), 401
 
-        access_token = data["access_token"]  # Extract access_token
         decoded_token = decode_token(access_token)  # Decode the JWT token
         email = decoded_token.get("sub")  # Extract email from token
-        
+
         if not email:
             return jsonify({"msg": "Invalid or expired token"}), 401
-        
+
         # Fetch user from database using the extracted email
         user = users_collection.find_one({"email": email})
         if not user:
             return jsonify({"msg": "User not found"}), 404
-        
+
         return jsonify({"username": user.get("username")}), 200
-    
+
     except Exception as e:
         return jsonify({"msg": "Error retrieving username", "error": str(e)}), 500
+
     
 
 @user_routes.route("/profile", methods=["POST"])

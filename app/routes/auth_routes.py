@@ -10,7 +10,21 @@ from app.utils.security import  *
 from authlib.integrations.flask_client import OAuth
 import certifi
 import uuid
-import jwt
+from flask import Flask, redirect, url_for, session, request, jsonify
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from requests_oauthlib import OAuth2Session
+import uuid
+import os
+import random
+
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # Allow HTTP for local development
+
+client_id = '116911782936-rbs2fo9mnu82trsgk29afhih35ibr9mt.apps.googleusercontent.com'
+client_secret = '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'
+authorization_base_url = 'https://accounts.google.com/o/oauth2/auth'
+token_url = 'https://accounts.google.com/o/oauth2/token'
+redirect_uri = 'http://127.0.0.1:5000/api/v1/callback'
+scope = ['profile', 'email']
 
 # User Registration
 @auth_routes.route("/register", methods=["POST"])
@@ -188,78 +202,84 @@ def reset_password(token):
 
 @auth_routes.route("/login/google", methods=["GET"])
 def login_google():
-    try:
-        print("Yo reached login part")
-        CLIENT_ID='625117762742-occ7rvnho6rpdremg286j4gvegbsdh9u.apps.googleusercontent.com'
-        CLIENT_SECRET='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'
-        app = create_app()
-        oauth = OAuth(app)
-        google = oauth.register(
-        name='google',
-        client_id=CLIENT_ID,
-        client_secret=CLIENT_SECRET,
-        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-        client_kwargs={'scope': 'openid profile email'},)
-        print("Going for redirect url")
-        redirect_uri = url_for('auth_routes.authorize_google', _external=True)
-        print(f"Got url {redirect_uri}")
-        return google.authorize_redirect(redirect_uri)
-    except Exception as e:
-        app = create_app()
-        app.logger.error(f"Error during login: {str(e)}")
-        return "Error occurred during login", 500
+    google = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=scope)
+    authorization_url, state = google.authorization_url(authorization_base_url, access_type='offline', prompt='select_account')
+    session['oauth_state'] = state
+    return redirect(authorization_url)
 
 
-auth_routes.route("/authorize/google", methods=["GET"])
-def authorize_google():
-    CLIENT_ID='625117762742-occ7rvnho6rpdremg286j4gvegbsdh9u.apps.googleusercontent.com'
-    CLIENT_SECRET='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'
-    app = create_app()
-    oauth = OAuth(app)
-    google = oauth.register(
-    name='google',
-    client_id=CLIENT_ID,
-    client_secret=CLIENT_SECRET,
-    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-    client_kwargs={'scope': 'openid profile email'},)
-    token = google.authorize_access_token()
-    print("Received token")
-    userinfo_endpoint = google.server_metadata['userinfo_endpoint']
-    print("Received userinfo")
-    resp = google.get(userinfo_endpoint,verify=certifi.where())
-    print("Received responses")
-    user_info = resp.json()
-    print(resp.json())
-    username = user_info['given_name']
-    full_name = user_info['name']
-    email = user_info['email']
-    # MONGO_URI = "mongodb+srv://username:Password@cluster0.mrvq5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" # Ensure this variable is set in your environment
+@auth_routes.route("/callback" , methods = ["GET"])
+def callback():
+    google = OAuth2Session(client_id, state=session.get('oauth_state'), redirect_uri=redirect_uri)
+    print("Fetching token...")
+    token = google.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
+    print(f"Token received: {token}")
 
-    # Connect to MongoDB
-    # client = MongoClient(MONGO_URI)
-    # db = client["Mydatabase"]  # Ensure this matches your actual database name
+    print("Fetching user info...")
+    user_info = google.get('https://www.googleapis.com/oauth2/v1/userinfo').json()
+    print(f"User Info: {user_info}")
 
-    # User Collection
-    # users_collection = db["users"]
-    user_data = users_collection.find_one({'email': email})
-    print("Received user data")
-    if not user_data:
-        print("New user")
+
+
+    # Fetch user info from Google
+    # user_info = google.get('https://www.googleapis.com/oauth2/v1/userinfo').json()
+
+    email = user_info.get("email")
+    full_name = user_info.get("name", "")
+    first_name = user_info.get("given_name", "")
+    
+    # Check if user exists in the database
+    existing_user = users_collection.find_one({'email': email})
+    print(f"Existing user: {existing_user}")
+
+
+    if not existing_user:
+        print("New user detected, creating profile...")
         user_id = str(uuid.uuid4())
+        username = f"{first_name}_{random.randint(1000, 9999)}"
+        
         new_user = {
-                "user_id" : user_id,
-                "full_name": full_name,
-                "email": email,
-                "username": username,
-                "password": "none",
-                "test_results": {},  
-                "chatbot_preference": None
-            }
+            "user_id": user_id,
+            "full_name": full_name,
+            "email": email,
+            "username": username,
+            "password": "hashed_password",  # Replace with actual hashing if needed
+            "gender": "Male",
+            "phone_number": "",
+            "country": "India",
+            "test_results": [],
+            "chatbot_preference": None
+        }
+
         users_collection.insert_one(new_user)
-        print("User entered")
-    else:
-        print("User exist")
-    return redirect("http://localhost:3000/")
+        print("User successfully added to the database.")
+        # access_token = generate_token(email)
+        access_token = generate_token(email)
+        print(f"Generated Access Token: {access_token}")
+
+
+        response = make_response(redirect("http://localhost:3000/home"))  
+        response.set_cookie("access_token", access_token, httponly=True, secure=False, samesite="None")  
+
+        return response
+    
+    access_token = generate_token(email)
+    print(f'Email: {email}')
+    print(f'full name: {full_name}')
+    print(f'First name: {first_name}')
+    print(f"Generated Access Token: {access_token}")
+    response = make_response(jsonify({"message": "Login successful" , "access_token" : access_token}))
+    print("Existing User")
+    response.set_cookie("access_token", access_token, httponly=False, secure=False, samesite="None")  
+    print("Cookies set")
+    response.headers["Location"] = f"http://localhost:3000/home/?access_token={access_token}"
+    response.status_code = 302 
+
+
+    return response
+
+
+
 
 
 # @auth_routes.route("/api/chat", methods=["POST"])

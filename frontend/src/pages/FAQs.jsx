@@ -18,13 +18,9 @@ const FAQs = () => {
   ];
 
   return (
-    <>
+    <div>
     <Navbar/>
-    <div className="font-sans bg-white">
-      
-      {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between p-5 md:p-8 h-screen">
-        <div className="faq-wrapper">
+    <div className="faq-wrapper">
 
     <div className="faq-container">
       <h1 className="faq-title">Frequently Asked Questions</h1>
@@ -41,9 +37,8 @@ const FAQs = () => {
       </div>
     </div>
     </div>
-    </section>
-      </div>
-      </>
+
+    </div>
   );
 };
 

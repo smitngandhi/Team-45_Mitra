@@ -1,10 +1,9 @@
-/* General container styling */
-/* Wrapper to center FAQ without affecting navbar */
 .faq-wrapper {
   display: flex;
   justify-content: center;
+  background-color: white;
   align-items: center;
-  padding:2.5%Ensures vertical centering
+  padding:2.5%/* Ensures vertical centering */
 }
 
 .faq-container {

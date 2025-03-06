@@ -19,6 +19,8 @@ const Navbar = () => {
             body: JSON.stringify({ access_token: cookies.access_token }),
           });
 
+          
+
           const data = await response.json();
           if (response.ok) {
             setUsername(data.username);
@@ -55,7 +57,7 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="flex justify-between items-center p-3 shadow-md">
+    <nav className="flex justify-between items-center bg-white p-3 shadow-md">
   <div className="max-w-screen-xl mx-auto px-4 py-3 flex w-full">
     
     {/* Left: MITRA (Logo) */}
@@ -64,7 +66,7 @@ const Navbar = () => {
     </div>
 
     {/* Right: Nav Links (Push to right with ml-auto) */}
-    <div className="hidden md:flex items-center space-x-5 ml-auto">
+    <div className="hidden md:flex items-center  space-x-5 ml-auto">
       <Link to="/test" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Know Your Mind</Link>
       <Link to="/Chatbot" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">MindChat</Link>
       <Link to="/plan" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">SelfCare Plans</Link>
@@ -73,7 +75,7 @@ const Navbar = () => {
     </div>
 
     {/* Rightmost: Authentication Buttons (Login/Register or Username + Logout) */}
-    <div className="flex items-center space-x-5 ml-6">
+    <div className="flex items-center bg-white space-x-5 ml-6">
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : username ? (
@@ -106,8 +108,6 @@ const Navbar = () => {
 
   </div>
 </nav>
-
-      <div className="h-16"></div>
     </>
   );
 };
