@@ -12,12 +12,12 @@ import ResetPassword from "./pages/ResetPassword";
 import After_Login_Home from "./pages/After_Login_Home";
 import Profile from "./pages/Profile"
 import Test from "./pages/Test"
-
+import ContactUs from "./pages/Contact_Us";
 
 const App = () => {
   return (
     <>
-      <Navbar />
+     
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<After_Login_Home />} />
@@ -29,6 +29,7 @@ const App = () => {
         <Route path="/reset_password/:token" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/test" element={<Test/>}/>
+        <Route path="/contact_us" element={<ContactUs />} />
       </Routes>
       {/* <Footer /> */}
     </>

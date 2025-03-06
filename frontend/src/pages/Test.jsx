@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import '../Test.css';
 import { useCookies } from "react-cookie";
 import { useEffect } from 'react';
-import illustration from "../assets/Illustration.jpg.jpeg"
+import illustration from "../assets/Illustration.jpg.jpeg";
 
-// Define option colors for each index (0..3)
 const optionColors = {
-  0: "#2ecc71", // Green
-  1: "#f1c40f", // Yellow
-  2: "#e67e22", // Orange
-  3: "#e74c3c"  // Red
+  0: "#2ecc71", 
+  1: "#f1c40f", 
+  2: "#e67e22", 
+  3: "#e74c3c"  
 };
 
 const questions = [
@@ -33,37 +32,38 @@ function Test() {
   }, {});
 
   const [responses, setResponses] = useState(initialResponses);
+  const [loading, setLoading] = useState(false); // Loading state added
 
   useEffect(() => {
-        const fetchUsername = async () => {
-          try {
-            if (!cookies.access_token) {
-              console.error("No access token found.");
-              return;
-            }
+    const fetchUsername = async () => {
+      try {
+        if (!cookies.access_token) {
+          console.error("No access token found.");
+          return;
+        }
 
-            const response = await fetch("http://127.0.0.1:5000/api/v1/get-username", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ access_token: cookies.access_token }),
-            });
+        const response = await fetch("http://127.0.0.1:5000/api/v1/get-username", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ access_token: cookies.access_token }),
+        });
 
-            const data = await response.json();
+        const data = await response.json();
 
-            if (response.ok) {
-              setUsername(data.username);
-            } else {
-              console.error("Error fetching username:", data.msg);
-            }
-          } catch (error) {
-            console.error("Unexpected error:", error);
-          }
-        };
+        if (response.ok) {
+          setUsername(data.username);
+        } else {
+          console.error("Error fetching username:", data.msg);
+        }
+      } catch (error) {
+        console.error("Unexpected error:", error);
+      }
+    };
 
-        fetchUsername();
-      }, [cookies.access_token]);
+    fetchUsername();
+  }, [cookies.access_token]);
 
   const handleOptionSelect = (questionKey, value) => {
     setResponses(prev => ({
@@ -77,7 +77,6 @@ function Test() {
       <div className="question-options">
         {[0, 1, 2, 3].map((value, index) => (
           <React.Fragment key={index}>
-            {/* Option group: small left circle, main circle, small right circle */}
             <div className="option-wrapper" style={{ '--option-color': optionColors[value] }}>
               <div className="small-circle left"></div>
               <div
@@ -88,7 +87,6 @@ function Test() {
               </div>
               <div className="small-circle right"></div>
             </div>
-            {/* Connector line (dashed) between options (except after last) */}
             {index < 3 && (
               <div className="connector" style={{ '--option-color': optionColors[value] }}>
                 <div className="connector-line"></div>
@@ -100,20 +98,18 @@ function Test() {
     );
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const allFilled = Object.values(responses).every(value => value !== null);
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      // Check if any response is null (i.e., not filled)
-      const allFilled = Object.values(responses).every(value => value !== null);
-  
-      if (!allFilled) {
-          alert("Please fill all the values before submitting.");
-          return; // Stop further execution
-      }
-  
-    // Calculate total score
+    if (!allFilled) {
+      alert("Please fill all the values before submitting.");
+      return;
+    }
+
+    setLoading(true); // Start loading
+
     const totalScore = Object.values(responses).reduce(
       (sum, value) => sum + (value !== null ? value : 0),
       0
@@ -122,7 +118,6 @@ function Test() {
     console.log("Submitted responses:", responses);
     console.log("Total Score:", totalScore);
 
-    // Send data to API
     try {
       const response = await fetch(
         "http://127.0.0.1:5000/api/v1/store_test_score",
@@ -132,8 +127,8 @@ function Test() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            access_token: cookies.access_token, // Pass access_token from cookies
-            test_score: totalScore, // Send the calculated score
+            access_token: cookies.access_token,
+            test_score: totalScore,
           }),
         }
       );
@@ -148,11 +143,12 @@ function Test() {
       console.error("Error submitting score:", error);
       alert("Failed to submit score. Please try again.");
     }
+
+    setLoading(false); // Stop loading after process completes
   };
 
   return (
     <div className="app">
-      {/* Top Header */}
       <div className="header">
         <div className="logo">MITRA</div>
         <div className="header-right">
@@ -162,7 +158,6 @@ function Test() {
         </div>
       </div>
 
-      {/* Main Questionnaire Container */}
       <div className="questionnaire-container">
         <div className="questionnaire-header">
           <div className="header-content">
@@ -178,7 +173,6 @@ function Test() {
           Over the last 2 weeks, how often have you been bothered by any of the following problems?
         </div>
 
-        {/* Scrollable container for questions */}
         <div className="questions-scroll">
           <form onSubmit={handleSubmit} className="phq-form">
             {questions.map((q, index, arr) => (
@@ -193,9 +187,18 @@ function Test() {
           </form>
         </div>
 
-        {/* Submit Button outside the scrollable container */}
-        <button type="submit" className="submit-button" onClick={handleSubmit}>
-          Submit
+        {/* Submit Button with Loading State */}
+        <button
+          type="submit"
+          className="submit-button"
+          onClick={handleSubmit}
+          disabled={loading} // Disable button while loading
+        >
+          {loading ? (
+            <span className="loader">Loading...</span> // Show loader animation
+          ) : (
+            "Submit"
+          )}
         </button>
       </div>
     </div>

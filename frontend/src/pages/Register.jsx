@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import GoogleButton from "../components/GoogleButton";
 import illustration from "../assets/Illustration.jpg.jpeg";
 import { useNavigate } from "react-router-dom"; 
+import Navbar from "../components/Navbar";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,9 +13,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     const userData = {
       full_name: fullName,
@@ -34,39 +38,39 @@ const Register = () => {
 
       const data = await response.json();
       if (response.ok) {
-        // Registration successful, handle accordingly
         console.log(data.msg);
-        //HERE
         navigate("/");
       } else {
-        setError(data.msg); // Handle error response from Flask
+        setError(data.msg);
       }
     } catch (error) {
       console.error("Error:", error);
       setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-     <div className="flex items-center justify-center min-h-screen bg-white">
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex">
-            
-            {/* Left Section - Illustration */}
-            <div className="hidden md:flex w-1/2 items-center justify-center bg-white">
-              <img 
-                src={illustration} 
-                alt="Login Illustration" 
-                className="w-3/4 transition-transform duration-500 hover:scale-105"
-              />
-            </div>
+    <>
+    <Navbar/>
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex">
+        {/* Left Section - Illustration */}
+        <div className="hidden md:flex w-1/2 items-center justify-center bg-white">
+          <img 
+            src={illustration} 
+            alt="Login Illustration" 
+            className="w-3/4 transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+        
         {/* Right Section - Registration Form */}
         <div className="w-full md:w-1/2 p-10">
-        <h2 className="text-3xl font-medium text-gray-600">
-  New here, <span className="text-4xl font-bold text-[#8A7FDB]">Mitra</span>?
-</h2>
-<h2 className="text-lg font-bold text-[#8A7FDB]">Let's begin.</h2>
-
-
+          <h2 className="text-3xl font-medium text-gray-600">
+            New here, <span className="text-4xl font-bold text-[#8A7FDB]">Mitra</span>?
+          </h2>
+          <h2 className="text-lg font-bold text-[#8A7FDB]">Let's begin.</h2>
 
           {/* Full Name */}
           <div className="mt-6">
@@ -131,12 +135,13 @@ const Register = () => {
 
           {/* Register Button */}
           <button 
-          className="w-full bg-[#8A7FDB] text-white font-semibold rounded-lg py-3 mt-4
-                    transition-all duration-300 hover:bg-[#6f63cc] hover:shadow-md"
-          onClick={handleSubmit}
-        >
-          Register
-        </button>
+            className="w-full bg-[#8A7FDB] text-white font-semibold rounded-lg py-3 mt-4
+                      transition-all duration-300 hover:bg-[#6f63cc] hover:shadow-md"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
 
           {/* OR Divider */}
           <div className="flex items-center my-4">
@@ -152,16 +157,16 @@ const Register = () => {
           <p className="text-center mt-4 text-gray-600">
             Already have an account?
             <Link 
-                          to="/login" 
-                          className="text-[#8A7FDB] font-semibold 
-                                     transition-colors duration-300 hover:text-[#6f63cc] ml-1"
-                        >
-                          Log In
-                        </Link>
+              to="/login" 
+              className="text-[#8A7FDB] font-semibold transition-colors duration-300 hover:text-[#6f63cc] ml-1"
+            >
+              Log In
+            </Link>
           </p>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -55,50 +55,58 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-        <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
-          <div onClick={handleMitraClick} className="cursor-pointer">
-            <h1 className="text-2xl font-bold text-indigo-600 animated-text">MITRA</h1>
-          </div>      
-          <div className="hidden md:flex items-center space-x-5 ml-auto">
-            <Link to="/test" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Know Your Mind</Link>
-            <Link to="/Chatbot" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">MindChat</Link>
-            <Link to="/plan" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">SelfCare Plans</Link>
-            <Link to="/faqs" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">FAQs</Link>
-            <Link to="/contactus" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Contact Us</Link>
-          </div>
-          <div className="flex items-center space-x-5 ml-6">
-            {loading ? (
-              <p className="text-gray-500">Loading...</p>
-            ) : username ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-indigo-600 font-semibold hidden md:block"><Link to ="/profile">Hello, {username}</Link></span>
-                <button 
-                  onClick={handleLogout}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md text-sm transition-all duration-300 hover:bg-red-600"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link 
-                  to="/login" 
-                  className="px-4 py-2 border rounded-md transition-all duration-300 hover:bg-gray-200"
-                >
-                  Login
-                </Link>
-                <Link 
-                  to="/register" 
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-md transition-all duration-300 hover:bg-indigo-700 hover:shadow-md"
-                >
-                  Register
-                </Link>
-              </div>
-            )}
-          </div>
+    <nav className="flex justify-between items-center p-3 shadow-md">
+  <div className="max-w-screen-xl mx-auto px-4 py-3 flex w-full">
+    
+    {/* Left: MITRA (Logo) */}
+    <div onClick={handleMitraClick} className="cursor-pointer">
+      <h1 className="text-2xl font-bold text-indigo-600 animated-text">MITRA</h1>
+    </div>
+
+    {/* Right: Nav Links (Push to right with ml-auto) */}
+    <div className="hidden md:flex items-center space-x-5 ml-auto">
+      <Link to="/test" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Know Your Mind</Link>
+      <Link to="/Chatbot" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">MindChat</Link>
+      <Link to="/plan" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">SelfCare Plans</Link>
+      <Link to="/faqs" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">FAQs</Link>
+      <Link to="/contact_us" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Contact Us</Link>
+    </div>
+
+    {/* Rightmost: Authentication Buttons (Login/Register or Username + Logout) */}
+    <div className="flex items-center space-x-5 ml-6">
+      {loading ? (
+        <p className="text-gray-500">Loading...</p>
+      ) : username ? (
+        <div className="flex items-center space-x-4">
+          <span className="text-indigo-600 font-semibold hidden md:block"><Link to ="/profile">Hello, {username}</Link></span>
+          <button 
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500 text-white rounded-md text-sm transition-all duration-300 hover:bg-red-600"
+          >
+            Logout
+          </button>
         </div>
-      </nav>
+      ) : (
+        <div className="flex items-center space-x-4">
+          <Link 
+            to="/login" 
+            className="px-4 py-2 border rounded-md transition-all duration-300 hover:bg-gray-200"
+          >
+            Login
+          </Link>
+          <Link 
+            to="/register" 
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md transition-all duration-300 hover:bg-indigo-700 hover:shadow-md"
+          >
+            Register
+          </Link>
+        </div>
+      )}
+    </div>
+
+  </div>
+</nav>
+
       <div className="h-16"></div>
     </>
   );

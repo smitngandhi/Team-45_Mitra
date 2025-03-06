@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   return (
+    <>
+    <Navbar/>
     <div className="font-sans bg-white">
       
       {/* Hero Section */}
@@ -31,6 +33,7 @@ const Home = () => {
       </section>
 
     </div>
+    </>
   );
 };
 

@@ -69,6 +69,8 @@ const After_Login_Home = () => {
       
   const navigate = useNavigate();
   return (
+    <>
+    <Navbar/>
     <div className="app">
       {/* Main Content */}
       <main className="main-content">
@@ -170,9 +172,8 @@ const After_Login_Home = () => {
         </div>
 
       </main>
-
-      
     </div>
+    </>
   );
 };
 

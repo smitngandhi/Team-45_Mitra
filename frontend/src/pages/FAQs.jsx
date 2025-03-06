@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../FAQs.css";
+import Navbar from "../components/Navbar";
 
 const FAQs = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -17,6 +18,8 @@ const FAQs = () => {
   ];
 
   return (
+    <>
+    <Navbar/>
     <div className="font-sans bg-white">
       
       {/* Hero Section */}
@@ -40,6 +43,7 @@ const FAQs = () => {
     </div>
     </section>
       </div>
+      </>
   );
 };
 
