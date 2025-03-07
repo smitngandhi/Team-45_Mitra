@@ -159,11 +159,12 @@ function Chatbot() {
   const navItems = [
     { icon: chat, label: 'MindChat', path: '/chatbot'},
         { icon: test, label: 'Self Test ', path: '/test'},
-        { icon: personheart, label: 'SelfCare Plans', path: '/plan'},
+        { icon: personheart, label: 'SelfCare Plans', path: '/selfcare'},
         { icon: question, label: 'FAQs', path: '/faqs'},
         { icon: person, label: 'Profile', path: '/profile'},    
         { icon: house, label: 'Home', path: '/home'},
   ];
+
   
   // Chat state
   const [messages, setMessages] = useState([]);

@@ -4,7 +4,6 @@ import personheart from '../assets/personheart.svg'
 import person from '../assets/person.svg'
 import house from '../assets/house.svg'
 import chat from '../assets/chat.svg'
-// import '../Chatbot.css';
 
 import test from "../assets/pencil-fill.svg"
 import question from "../assets/question-circle.svg"
@@ -136,7 +135,7 @@ function Profile() {
   const navItems = [
       { icon: chat, label: 'MindChat', path: '/chatbot'},
           { icon: test, label: 'Self Test ', path: '/test'},
-          { icon: personheart, label: 'SelfCare Plans', path: '/plan'},
+          { icon: personheart, label: 'SelfCare Plans', path: '/selfcare'},
           { icon: question, label: 'FAQs', path: '/faqs'},
           { icon: person, label: 'Profile', path: '/profile'},    
           { icon: house, label: 'Home', path: '/home'},

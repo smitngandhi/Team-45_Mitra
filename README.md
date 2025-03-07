@@ -1,6 +1,8 @@
 =======
 # Team-45_Mitra
 
+# video-link :- "https://drive.google.com/drive/folders/1UT4d0eRqJ1zEbYlfFOOReaX_usj8MpnZ?usp=sharing"
+
 ## Overview
 **Mitra** is an AI-powered mental wellness assistant that provides users with emotional support and personalized self-care plans based on sentiment analysis of chat interactions. The backend is built using **Flask**, incorporating **MongoDB** for user and chat storage, **VADER Sentiment Analysis** for mood tracking, and **FPDF** for generating self-care reports.
 
@@ -94,5 +96,86 @@ The server will start at `http://127.0.0.1:5000`
 - **`config.py`**: Manages app configurations via environment variables.
 - **`models.py`**: Defines MongoDB collections (`users`, `chats`).
 
->>>>>>> 1356d14bff664a2a27f292b798e60a2c669a6f0b
+# MITRA Frontend
+
+## Overview
+The **MITRA Frontend** is a React-based user interface designed for the MITRA AI-powered mental wellness assistant. It serves as the primary platform where users can interact with the chatbot, access therapy recommendations, and explore self-care resources.
+
+## Tech Stack
+- **Frontend Framework:** React.js
+- **Styling:** Tailwind CSS
+- **State Management:** Context API (or Redux if used later)
+- **Routing:** React Router
+- **Authentication:** JWT-based authentication (with cookies)
+- **Backend Communication:** REST API (Flask-based backend)
+
+## Project Structure
+```
+frontend/
+│── public/              # Static assets (favicon, logo, index.html)
+│── src/
+│   ├── assets/         # Images, icons, and other static resources
+│   ├── components/     # Reusable UI components (Navbar, Footer, Buttons)
+│   ├── pages/          # Page-level components (Home, Login, Profile, Chatbot)
+│   ├── App.js          # Main application entry point
+│   ├── App.css         # Global styles
+│── package.json        # Dependencies and scripts
+│── tailwind.config.js  # Tailwind CSS configuration
+│── .env                # Environment variables (API URLs, secrets)
+```
+
+## Features
+- **User Authentication** (Login, Register, Forgot Password)
+- **Chatbot Integration** (AI-powered mental wellness assistant)
+- **Self-care Tools** (Breathing exercises, meditation, and therapy plans)
+- **Responsive UI** with Tailwind CSS
+- **Dark Mode Support** (if implemented)
+- **Secure API Communication** (JWT token authentication via cookies)
+
+## Installation & Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/smitngandhi/Team-45_Mitra.git
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm start
+   ```
+
+## Environment Variables
+Create a `.env` file in the root directory and define:
+```
+REACT_APP_API_BASE_URL=http://127.0.0.1:5000/api/v1
+REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id
+```
+
+## API Endpoints Used
+- **User Authentication:**
+  - `POST /api/v1/login`
+  - `POST /api/v1/register`
+
+
+
+## Contributing
+1. Create a new branch: `git checkout -b feature-name`
+2. Make changes and commit: `git commit -m 'Added new feature'`
+3. Push to GitHub: `git push origin feature-name`
+4. Open a pull request
+
+## Maintainers
+- **Smit Gandhi** (Backend & Authentication)
+- **Dhruvil** (Backend APIs)
+- **Prachi** (UI/UX & Chatbot Fine-Tuning)
+- **Manan** (Frontend Development & Cloud Integration)
+
+---
+📌 *MITRA - AI Mental Wellness Assistant | Built with ❤️ by Team 45*
+
+
+
 

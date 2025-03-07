@@ -37,39 +37,39 @@ const Home = () => {
         // 6 Testimonials
         const testimonialsData = [
           {
-            text: "Thank you for your service. I am very pleased with the result. I have seen exponential growth in my business, and it's all thanks to your amazing service.",
-            name: "Emily Stones",
-            position: "CEO, Marketing Guru",
+            text: "Mitra's self-assessment tools helped me recognize my anxiety triggers that I'd been overlooking for years. The personalized self-care plan was exactly what I needed to start making positive changes in my daily routine.",
+            name: "Keval Shah",
+            position: "A GATE Aspirant",
             image: User
           },
           {
-            text: "Amazing experience! The best service I have ever used. It completely changed my business strategy.",
-            name: "John Doe",
-            position: "Founder, Tech Hub",
+            text: "As someone who struggled to understand my fluctuating moods, Mitra's chatbot became my daily companion. It helped me track patterns in my emotional states and suggested practical coping strategies that actually worked for me.",
+            name: "Jhil Bhavsar",
+            position: "Database Administrator",
             image: User
           },
           {
-            text: "Their service is outstanding! I highly recommend it to anyone looking for real business growth.",
-            name: "Sarah Lee",
-            position: "CMO, Creative Studio",
+            text: "The mind state assessments in Mitra gave me insights about myself that years of journaling couldn't provide. I finally understand the connection between my sleep patterns and emotional wellbeing thanks to the detailed analysis.",
+            name: "Tisha Patel",
+            position: "Backend Developer",
             image: User
           },
           {
-            text: "I've never been happier with a partnership. Truly transformative for our workflow and results!",
-            name: "Ava Smith",
-            position: "Operations Lead",
+            text: "Mitra's self-care plans are realistic and adaptable to my busy schedule. What impressed me most was how the recommendations evolved as my mental state improved. It felt like having a personal wellness coach in my pocket.",
+            name: "Rudri Bhatt",
+            position: "Graduate Student",
             image: User
           },
           {
-            text: "We achieved record sales in just a few months. The team is fantastic, always ready to help!",
-            name: "Michael Green",
-            position: "Head of Sales, FinCorp",
+            text: "I was skeptical about chatbots, but Mitra's AI surprised me with its empathetic responses. During a particularly difficult week, the guided breathing exercises and mindfulness sessions recommended by Mitra made a tremendous difference.",
+            name: "Hemit Rana",
+            position: "Teaching Assistant",
             image: User
           },
           {
-            text: "Our collaboration felt seamless, and the results speak for themselves. Highly recommended!",
-            name: "Rachel Brown",
-            position: "Project Manager, Innovations Inc.",
+            text: "The best part about Mitra is how it connects the dots between different aspects of mental wellbeing. The app helped me understand how my diet and exercise habits were affecting my mood, and offered practical suggestions that fit my lifestyle.",
+            name: "Yashvi Thakkar",
+            position: "UX Designer",
             image: User
           }
         ];
@@ -134,7 +134,6 @@ const Home = () => {
               </div>
               <h3>Know Your MIND</h3>
               <p>The 'Know Your Mind' test explores your psychological profile.</p>
-              <button className="learn-more-btn">Learn More →</button>
             </div>
 
             <div className="service-card">
@@ -146,7 +145,6 @@ const Home = () => {
               </div>
               <h3>SELFCARE</h3>
               <p>A structured self-care plan fosters balance through healthy habits, mindfulness, and growth.</p>
-              <button className="learn-more-btn">Learn More →</button>
             </div>
 
             <div className="service-card">
@@ -158,7 +156,6 @@ const Home = () => {
               </div>
               <h3>MINDchat</h3>
               <p>MindChat: Your Intelligent Companion for Mental Well-being & Self-Care.</p>
-              <button className="learn-more-btn">Learn More →</button>
             </div>
           </div>
         </div>

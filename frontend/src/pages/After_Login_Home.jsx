@@ -134,7 +134,6 @@ const After_Login_Home = () => {
               </div>
               <h3>Know Your MIND</h3>
               <p>The 'Know Your Mind' test explores your psychological profile.</p>
-              <button className="learn-more-btn">Learn More →</button>
             </div>
 
             <div className="service-card">
@@ -146,7 +145,6 @@ const After_Login_Home = () => {
               </div>
               <h3>SELFCARE</h3>
               <p>A structured self-care plan fosters balance through healthy habits, mindfulness, and growth.</p>
-              <button className="learn-more-btn">Learn More →</button>
             </div>
 
             <div className="service-card">
@@ -158,7 +156,6 @@ const After_Login_Home = () => {
               </div>
               <h3>MINDchat</h3>
               <p>MindChat: Your Intelligent Companion for Mental Well-being & Self-Care.</p>
-              <button className="learn-more-btn">Learn More →</button>
             </div>
           </div>
         </div>
