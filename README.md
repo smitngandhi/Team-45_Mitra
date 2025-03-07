@@ -13,7 +13,7 @@
 ## Project Structure
 ```
 Team-45_Mitra/
-│── app/
+│── backend/
 │   │── routes/
 │   │   │── auth_routes.py        # Handles user authentication (login, register, password reset)
 │   │   │── chatbot_routes.py     # Chatbot API for generating responses and sentiment analysis
