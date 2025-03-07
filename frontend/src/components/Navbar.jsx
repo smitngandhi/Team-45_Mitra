@@ -69,7 +69,7 @@ const Navbar = () => {
     <div className="hidden md:flex items-center  space-x-5 ml-auto">
       <Link to="/test" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Know Your Mind</Link>
       <Link to="/Chatbot" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">MindChat</Link>
-      <Link to="/plan" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">SelfCare Plans</Link>
+      <Link to="/selfcare" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">SelfCare Plans</Link>
       <Link to="/faqs" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">FAQs</Link>
       <Link to="/contact_us" className="text-gray-600 hover:text-indigo-600 hover:font-semibold transition-colors duration-500">Contact Us</Link>
     </div>
