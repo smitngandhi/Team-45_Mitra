@@ -1,7 +1,7 @@
 =======
 # Team-45_Mitra
 
-# video-link :- "https://drive.google.com/drive/folders/1UT4d0eRqJ1zEbYlfFOOReaX_usj8MpnZ?usp=sharing"
+### video-link :- "https://drive.google.com/drive/folders/1UT4d0eRqJ1zEbYlfFOOReaX_usj8MpnZ?usp=sharing"
 
 ## Overview
 **Mitra** is an AI-powered mental wellness assistant that provides users with emotional support and personalized self-care plans based on sentiment analysis of chat interactions. The backend is built using **Flask**, incorporating **MongoDB** for user and chat storage, **VADER Sentiment Analysis** for mood tracking, and **FPDF** for generating self-care reports.
