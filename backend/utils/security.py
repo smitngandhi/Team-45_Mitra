@@ -4,7 +4,7 @@ import re
 import hashlib
 
 import requests
-from app.models import *
+from backend.models import *
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 def is_valid_username(username):

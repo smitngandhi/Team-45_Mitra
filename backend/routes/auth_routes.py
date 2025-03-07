@@ -1,12 +1,12 @@
-from app import create_app
+from backend import create_backend
 from flask import make_response, redirect, request, jsonify, url_for
-from app.models import users_collection , chats_collection
-from app.utils.mail import send_reset_email
+from backend.models import users_collection , chats_collection
+from backend.utils.mail import send_reset_email
 import secrets
-from app.routes import auth_routes
+from backend.routes import auth_routes
 from datetime import datetime , timedelta 
 from datetime import datetime, timedelta, timezone
-from app.utils.security import  *
+from backend.utils.security import  *
 from authlib.integrations.flask_client import OAuth
 import certifi
 import uuid
@@ -19,7 +19,7 @@ import random
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # Allow HTTP for local development
 
-client_id = '116911782936-rbs2fo9mnu82trsgk29afhih35ibr9mt.apps.googleusercontent.com'
+client_id = '116911782936-rbs2fo9mnu82trsgk29afhih35ibr9mt.backends.googleusercontent.com'
 client_secret = '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'
 authorization_base_url = 'https://accounts.google.com/o/oauth2/auth'
 token_url = 'https://accounts.google.com/o/oauth2/token'

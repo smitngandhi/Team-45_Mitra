@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import os
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
-from app.config import Config
+from backend.config import Config
 
 
 

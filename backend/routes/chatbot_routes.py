@@ -1,12 +1,12 @@
-from app import create_app
+from backend import create_backend
 from flask import make_response, redirect, request, jsonify, url_for
-from app.models import users_collection , chats_collection
-from app.utils.mail import send_reset_email
+from backend.models import users_collection , chats_collection
+from backend.utils.mail import send_reset_email
 import secrets
-from app.routes import chatbot_routes
+from backend.routes import chatbot_routes
 from datetime import datetime , timedelta 
 from datetime import datetime, timedelta, timezone
-from app.utils.security import  *
+from backend.utils.security import  *
 from authlib.integrations.flask_client import OAuth
 import certifi
 import uuid
@@ -134,7 +134,7 @@ def generate_selfcare_pdf():
         
         pdf.multi_cell(0, 10, "2.Mindful Breathing (4-7-8 method, twice daily): Inhale for 4 seconds, hold for 7 seconds, exhale for 8 seconds. This technique helps activate the parasympathetic nervous system, reducing stress and anxiety.")
         
-        pdf.multi_cell(0, 10, "3.Journaling Prompt: 'Write about a moment when you felt truly happy and what made it special.' Writing about positive experiences can help rewire your brain to focus on the good.")
+        pdf.multi_cell(0, 10, "3.Journaling Prompt: 'Write about a moment when you felt truly hbackendy and what made it special.' Writing about positive experiences can help rewire your brain to focus on the good.")
         
         pdf.multi_cell(0, 10, "4.Nutrition Tip: Begin your day with a protein-rich breakfast (e.g., eggs, yogurt, nuts) to stabilize blood sugar and energy levels.")
         
@@ -143,7 +143,7 @@ def generate_selfcare_pdf():
         pdf.multi_cell(0, 10, "6.Social Connection: Reach out to one person today, even if it's just a short message. Social interaction releases oxytocin, which helps reduce stress.")
 
     elif avg_sentiment < 0.7:
-        pdf.multi_cell(0, 10, "Your mood appears balanced, and maintaining a structured self-care routine will help sustain your well-being. Here's a set of habits to reinforce emotional stability and boost happiness:")
+        pdf.multi_cell(0, 10, "Your mood backendears balanced, and maintaining a structured self-care routine will help sustain your well-being. Here's a set of habits to reinforce emotional stability and boost hbackendiness:")
 
         pdf.multi_cell(0, 10, "1Morning Gratitude Exercise: Upon waking, list three things you're grateful for. Practicing gratitude increases dopamine and serotonin levels, improving emotional resilience.")
         
@@ -176,7 +176,7 @@ def generate_selfcare_pdf():
 
     msg = Message("Your Personalized Self-Care Plan", sender="mitrahelpline123@gmail.com", recipients=[email])
     msg.body = "Attached is your self-care plan based on your chat history and sentiment analysis."
-    msg.attach("self_care_plan.pdf", "application/pdf", pdf_output.getvalue())
+    msg.attach("self_care_plan.pdf", "backendlication/pdf", pdf_output.getvalue())
     mail.send(msg)
 
     return jsonify({"message": "Self-care plan sent successfully to email."})

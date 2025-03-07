@@ -16,7 +16,7 @@ outh = OAuth()
 mail = Mail()
 jwt = JWTManager()
 
-# Initialize Flask App
+# Initialize Flask app
 def create_app():
     app = Flask(__name__)
 
