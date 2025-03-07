@@ -3,6 +3,15 @@ import { Link } from 'react-router-dom';
 import '../Selfcare.css';
 import music from '../assets/relax_music.mp3'
 
+import personheart from '../assets/personheart.svg'
+import person from '../assets/person.svg'
+import house from '../assets/house.svg'
+import chat from '../assets/chat.svg'
+
+import test from "../assets/pencil-fill.svg"
+import question from "../assets/question-circle.svg"
+
+
 // Simple MeditationIcon placeholder
 const MeditationIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="40" height="40">
@@ -339,36 +348,46 @@ const App = () => {
 
   // Sidebar navigation items
   const navItems = [
-    { icon: '/images/chat.svg', label: 'MINDchat', active: true },
-    { icon: '/images/person.svg', label: 'Welfare Test', active: false },
-    { icon: '/images/personheart.svg', label: 'Selfcare Plans', active: true },
-    { icon: '/images/person.svg', label: 'Profile', active: false },
-    { icon: '/images/house.svg', label: 'Home', active: false },
+    { icon: chat, label: 'MindChat', path: '/chatbot'},
+    { icon: test, label: 'Self Test ', path: '/test'},
+    { icon: personheart, label: 'SelfCare Plans', path: '/plan'},
+    { icon: question, label: 'FAQs', path: '/faqs'},
+    { icon: person, label: 'Profile', path: '/profile'},    
+    { icon: house, label: 'Home', path: '/home'},
   ];
 
   return (
     <div className="app-container">
-      {/* LEFT SIDEBAR */}
-      <aside className="sidebar">
+      {/* LEFT SIDEBAR - STATIC NAVBAR */}
+      <aside className="sidebar" style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        height: '100vh',
+        zIndex: 1000,
+        overflowY: 'auto'
+      }}>
         <h2 className="Mitra">MITRA</h2>
         <nav>
           <ul className="nav-list">
             {navItems.map((item, idx) => (
               <li key={idx} className={item.active ? 'active' : ''}>
-                <img
-                  src={item.icon}
-                  alt={`${item.label} Logo`}
-                  className="menu-logo"
-                />
-                {item.label}
+                <Link to={item.path} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+                  <img
+                    src={item.icon}
+                    alt={`${item.label} Logo`}
+                    className="menu-logo"
+                  />
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
       </aside>
 
-      {/* MAIN CONTENT */}
-      <div className="main-content">
+      {/* MAIN CONTENT - Add left margin to accommodate fixed sidebar */}
+      <div className="main-content" style={{ marginLeft: '250px' }}>
         {/* TOP BAR (gradient) */}
         <div className="top-bar">
           <h1 style={{ margin: 0, fontSize: 20, color: '#333' }}>Welcome, Rahul</h1>
