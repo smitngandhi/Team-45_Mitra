@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import '../Profile.css';
+import personheart from '../assets/personheart.svg'
+import person from '../assets/person.svg'
+import house from '../assets/house.svg'
+import chat from '../assets/chat.svg'
+// import '../Chatbot.css';
+
+import test from "../assets/pencil-fill.svg"
+import question from "../assets/question-circle.svg"
 import axios from 'axios';
 import user_profile from "../assets/user_profile.png"
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     full_name: '',
@@ -73,6 +83,7 @@ function Profile() {
     }));
   };
 
+
   // Function to save profile changes
   const saveProfileChanges = async () => {
     try {
@@ -122,82 +133,36 @@ function Profile() {
       }
     }
   };
-
+  const navItems = [
+      { icon: chat, label: 'MindChat', path: '/chatbot'},
+          { icon: test, label: 'Self Test ', path: '/test'},
+          { icon: personheart, label: 'SelfCare Plans', path: '/plan'},
+          { icon: question, label: 'FAQs', path: '/faqs'},
+          { icon: person, label: 'Profile', path: '/profile'},    
+          { icon: house, label: 'Home', path: '/home'},
+    ];
+  
   return (
     <div className="app-container">
       {/* Sidebar */}
-      <div className="sidebar">
-        <div className="logo">MITRA</div>
-        <nav className="nav-menu">
-          <div className="nav-item">
-            <div className="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </div>
-            <span>MINDchat</span>
-          </div>
-          <div className="nav-item">
-            <div className="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-            </div>
-            <span>HealthCare</span>
-          </div>
-          <div className="nav-item">
-            <div className="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-            </div>
-            <span>Welfare Test</span>
-          </div>
-          <div className="nav-item active">
-            <div className="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </div>
-            <span>Profile</span>
-          </div>
-          <div className="nav-item">
-            <div className="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-            </div>
-            <span>Health Reports</span>
-          </div>
-          <div className="nav-item">
-            <div className="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            </div>
-            <span>Home</span>
-          </div>
-          <div className="nav-item">
-            <div className="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-            </div>
-            <span>Logout</span>
-          </div>
+      
+      <aside className="sidebar">
+        <h2 className="Mitra">MITRA</h2>
+        <nav>
+          <ul>
+            {navItems.map((item, idx) => (
+              <li 
+                key={idx} 
+                className="nav-item" 
+                onClick={() => navigate(item.path)}
+              >
+                <img src={item.icon} alt={`${item.label} Logo`} className="menu-logo" />
+                {item.label}
+              </li>
+            ))}
+          </ul>
         </nav>
-      </div>
+        </aside>
 
       {/* Main content */}
       <div className="main-content">

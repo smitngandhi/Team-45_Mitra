@@ -57,7 +57,7 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="flex justify-between items-center bg-white p-3 shadow-md">
+    <nav className="flex justify-between items-center bg-white p-3">
   <div className="max-w-screen-xl mx-auto px-4 py-3 flex w-full">
     
     {/* Left: MITRA (Logo) */}

@@ -18,7 +18,7 @@ const FAQs = () => {
   ];
 
   return (
-    <div>
+    <div className="maindiv">
     <Navbar/>
     <div className="faq-wrapper">
 

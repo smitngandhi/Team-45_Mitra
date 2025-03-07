@@ -1,4 +1,7 @@
 /* ===== GLOBAL STYLES ===== */
+.main{
+  background-color: white;
+}
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -227,7 +230,7 @@ body {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, 4 0.3s ease, background 0.3s ease;
   }
   
   .submit-button:hover {

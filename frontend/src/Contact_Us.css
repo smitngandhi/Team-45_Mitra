@@ -1,4 +1,7 @@
 /* Contact_Us.css */
+.contact-navbar {
+    background: linear-gradient(to right, #f0f0fc, #fff6e0);
+}
 
 .contact-container {
     display: flex;
@@ -71,7 +74,7 @@
 
 /* Front side (only name) */
 .card-front {
-    background: linear-gradient(to right, #4a4a8a, #6f63cc);
+    background: linear-gradient(to right, #6161aa, #8072ee);
     color: white;
     font-size: 1.5rem;
     font-weight: 600;

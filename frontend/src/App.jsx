@@ -13,6 +13,7 @@ import After_Login_Home from "./pages/After_Login_Home";
 import Profile from "./pages/Profile"
 import Test from "./pages/Test"
 import ContactUs from "./pages/Contact_Us";
+import Plan from "./pages/Plan"
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/Chatbot" element={<Chatbot />} /> 
         <Route path="/register" element={<Register />} />
+        <Route path="/plan" element={<Plan/>}/>
         <Route path="/faqs" element={<FAQS />}/>
         <Route path="/forgot_password" element={<ForgotPassword />} />
         <Route path="/reset_password/:token" element={<ResetPassword />} />

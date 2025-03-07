@@ -3,6 +3,7 @@ import '../Test.css';
 import { useCookies } from "react-cookie";
 import { useEffect } from 'react';
 import illustration from "../assets/Illustration.jpg.jpeg";
+import Navbar from "../components/Navbar"
 
 const optionColors = {
   0: "#2ecc71", 
@@ -148,16 +149,9 @@ function Test() {
   };
 
   return (
+    <div className='main'>
+      <Navbar/>
     <div className="app">
-      <div className="header">
-        <div className="logo">MITRA</div>
-        <div className="header-right">
-          <div className="user-profile">
-            <span>{username || "Loading..."}</span>
-          </div>
-        </div>
-      </div>
-
       <div className="questionnaire-container">
         <div className="questionnaire-header">
           <div className="header-content">
@@ -202,6 +196,8 @@ function Test() {
         </button>
       </div>
     </div>
+    </div>
+
   );
 }
 

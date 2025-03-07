@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../Chatbot.css';
+import '../Profile.css';
+
 import personheart from '../assets/personheart.svg'
 import person from '../assets/person.svg'
 import house from '../assets/house.svg'
 import freepeek from '../assets/freepeek.jpeg'
 import chat from '../assets/chat.svg'
 import arrow1 from '../assets/arrow1.svg'
+import test from "../assets/pencil-fill.svg"
+import question from "../assets/question-circle.svg"
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function HappinessMeter({ value, onChange }) {
   const radius = 80;      // Radius for the arc
@@ -60,7 +65,7 @@ function HappinessMeter({ value, onChange }) {
     const timer = setTimeout(() => setAnimateKnob(false), 1000);
     return () => clearTimeout(timer);
   }, [value]);
-
+ 
   return (
     <div className="happiness-meter-container">
       <svg
@@ -152,13 +157,14 @@ function Chatbot() {
 
   // Sidebar navigation items
   const navItems = [
-    { icon: chat, label: 'MINDchat', active: true },
-    { icon: person, label: 'Welfare Test', active: false },
-    { icon: personheart, label: 'Selfcare Plans', active: false },
-    { icon: person, label: 'Profile', active: false },
-    { icon: house, label: 'Home', active: false },
+    { icon: chat, label: 'MindChat', path: '/chatbot'},
+        { icon: test, label: 'Self Test ', path: '/test'},
+        { icon: personheart, label: 'SelfCare Plans', path: '/plan'},
+        { icon: question, label: 'FAQs', path: '/faqs'},
+        { icon: person, label: 'Profile', path: '/profile'},    
+        { icon: house, label: 'Home', path: '/home'},
   ];
-
+  
   // Chat state
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
@@ -337,21 +343,25 @@ function Chatbot() {
   };
 
   const hasMessages = messages.length > 0;
-
+ 
+  const navigate = useNavigate();
+  
+        
+  
   return (
-    <div className="container">
+    <div className="app-container">
       {/* LEFT SIDEBAR */}
       <aside className="sidebar">
         <h2 className="Mitra">MITRA</h2>
         <nav>
           <ul>
             {navItems.map((item, idx) => (
-              <li key={idx} className={`nav-item ${item.active ? 'active' : ''}`}>
-                <img
-                  src={item.icon}
-                  alt={`${item.label} Logo`}
-                  className="menu-logo"
-                />
+              <li 
+                key={idx} 
+                className="nav-item" 
+                onClick={() => navigate(item.path)}
+              >
+                <img src={item.icon} alt={`${item.label} Logo`} className="menu-logo" />
                 {item.label}
               </li>
             ))}
