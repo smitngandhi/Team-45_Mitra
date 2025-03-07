@@ -24,8 +24,9 @@ Team-45_Mitra/
 │   │   │── security.py           # Security utilities (password hashing, JWT verification)
 │   │   │── config.py             # Configuration settings (DB connections, API keys, etc.)
 │   │   │── models.py             # Defines database models for users and chats
-│   └── __init__.py                # Initializes Flask application
+│   └── __init__.py               # Initializes Flask application
 │── README.md                     # Project documentation
+│── requirements.txt              # dependencies need to install before running
 ```
 
 ## Installation & Setup
